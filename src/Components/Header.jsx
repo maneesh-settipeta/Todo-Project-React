@@ -1,14 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Todo from "./Todo";
 
 function Header() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodo] = useState([]);
-  console.log(todos);
+  const [editTodo, setEditTodo] = useState(null);
+  // console.log(todos);
+
+  useEffect(() => {
+    // console.log("getting saved");
+    const storedTodos = localStorage.getItem("todos");
+    if (storedTodos) {
+      setTodo(JSON.parse(storedTodos));
+    }
+    console.log(storedTodos, todos);
+    console.log(JSON.parse(storedTodos));
+  }, []);
 
   const addTodo = () => {
     if (inputValue !== "") {
-      setTodo([...todos, inputValue]);
+      if (editTodo !== null) {
+        const updatedTodos = todos.map((todo, index) =>
+          index === editTodo ? inputValue : todo
+        );
+
+        setTodo(updatedTodos);
+        localStorage.setItem("todos", JSON.stringify(updatedTodos));
+        setEditTodo(null);
+      } else {
+        const newTodos = [...todos, inputValue];
+        setTodo(newTodos);
+        localStorage.setItem("todos", JSON.stringify(newTodos));
+      }
       setInputValue("");
     }
   };
@@ -17,54 +40,31 @@ function Header() {
     const updatedTodos = [...todos];
     updatedTodos.splice(index, 1);
     setTodo(updatedTodos);
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
+  };
+
+  const updateTodo = (index) => {
+    setInputValue(todos[index]);
+    setEditTodo(index);
   };
 
   return (
     <>
       <div>
-        <img
-          style={{
-            height: "55px",
-            width: "70px",
-            display: "flex",
-            textAlign: "left",
-          }}
-          src="Images\TodoWork.webp"
-        />
+        <img src="Images\TodoWork.webp" className="image-logo" />
       </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <div className="headerComponent-div">
         <input
-          style={{
-            width: "300px",
-            height: "40px",
-            fontSize: "16px",
-          }}
+          className="input-element"
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         ></input>
-        <button
-          style={{
-            height: "40px",
-            width: "auto",
-            borderRadius: "5px",
-            backgroundColor: "lightgreen",
-            borderColor: "white",
-            borderWidth: "1px",
-            marginLeft: "5px",
-          }}
-          onClick={addTodo}
-        >
-          Add Todo
+        <button className="button-style" onClick={addTodo}>
+          {editTodo === null ? "Add Todo" : "Update Todo"}
         </button>
       </div>
-      <Todo todos={todos} deleteTodos={deleteTodo} />
+      <Todo todos={todos} deleteTodos={deleteTodo} updateTodos={updateTodo} />
     </>
   );
 }

@@ -1,40 +1,20 @@
-function Todo({ todos, deleteTodos }) {
+/* eslint-disable react/prop-types */
+function Todo({ todos, deleteTodos, updateTodos }) {
   return (
     <>
-      <ul
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "fit-content",
-          alignItems: "center",
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >
+      <ul className="ul-element">
         {todos?.map((todo, index) => (
-          <button
-            key={index}
-            style={{
-              backgroundColor: "White",
-              marginBottom: "5px",
-              width: "auto-fit",
-            }}
-          >
+          <div key={index} className="div-ul-bottom">
             {todo}
+
             <button
-              style={{
-                height: "auto",
-                width: "auto",
-                borderRadius: "1px",
-                marginLeft: "5px",
-                borderWidth: "1px",
-                backgroundColor: "yellow",
-              }}
+              className="button-Bottom-ul"
               onClick={() => deleteTodos(index)}
             >
               X
             </button>
-          </button>
+            <button onClick={() => updateTodos(index)}> : </button>
+          </div>
         ))}
       </ul>
     </>
