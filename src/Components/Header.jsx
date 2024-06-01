@@ -4,7 +4,6 @@ import Todo from "./Todo";
 function Header() {
   const [inputValue, setInputValue] = useState("");
   const [todos, setTodo] = useState([]);
-  const [editTodo, setEditTodo] = useState(null);
   // console.log(todos);
 
   useEffect(() => {
@@ -19,21 +18,11 @@ function Header() {
 
   const addTodo = () => {
     if (inputValue !== "") {
-      if (editTodo !== null) {
-        const updatedTodos = todos.map((todo, index) =>
-          index === editTodo ? inputValue : todo
-        );
-
-        setTodo(updatedTodos);
-        localStorage.setItem("todos", JSON.stringify(updatedTodos));
-        setEditTodo(null);
-      } else {
-        const newTodos = [...todos, inputValue];
-        setTodo(newTodos);
-        localStorage.setItem("todos", JSON.stringify(newTodos));
-      }
-      setInputValue("");
+      const newTodos = [...todos, inputValue];
+      setTodo(newTodos);
+      localStorage.setItem("todos", JSON.stringify(newTodos));
     }
+    setInputValue("");
   };
 
   const deleteTodo = (index) => {
@@ -41,11 +30,6 @@ function Header() {
     updatedTodos.splice(index, 1);
     setTodo(updatedTodos);
     localStorage.setItem("todos", JSON.stringify(updatedTodos));
-  };
-
-  const updateTodo = (index) => {
-    setInputValue(todos[index]);
-    setEditTodo(index);
   };
 
   return (
@@ -61,10 +45,11 @@ function Header() {
           onChange={(e) => setInputValue(e.target.value)}
         ></input>
         <button className="button-style" onClick={addTodo}>
-          {editTodo === null ? "Add Todo" : "Update Todo"}
+          {" "}
+          Add Todo
         </button>
       </div>
-      <Todo todos={todos} deleteTodos={deleteTodo} updateTodos={updateTodo} />
+      <Todo todos={todos} deleteTodos={deleteTodo} />
     </>
   );
 }
