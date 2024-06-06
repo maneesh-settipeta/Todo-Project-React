@@ -1,0 +1,50 @@
+.main-background{
+    background-color: rgb(30, 30, 87);
+    
+    height: 100vh;
+}
+.whiteContainer{
+    /* background-color: white;
+    margin-right: 400px;
+    margin-left: 400px;
+    border-radius: 10px; */
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 5px;
+}
+.containerStyle{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.todoHeading{
+    color: rgb(30, 30, 87);
+    font-weight: 600;
+    text-align: left;
+    font-size: larger;
+    margin-left: 10px;
+}
+.inputElement{
+    height: 50px;
+    width: 300px;
+    border-radius: 25px;
+    border:none;
+    background-color: rgb(226, 223, 223);
+    padding: 10px;
+    
+}
+.inputButtonContainer{
+    text-align: left;
+    margin-left: 10px;
+}
+.AddButton{
+    height: 50px;
+    width: 80px;
+    border-radius: 25px;
+    background-color: orange;
+    padding: 2px;
+    margin-left: 10px;
+}
+
+
